@@ -10,10 +10,10 @@ $arkWebService = Ark()->webService();
 $router = $arkWebService->getRouter();
 $logger = Ark()->logger("web");
 
-//$arkWebService->setDebug(true);
-//$arkWebService->setLogger($logger);
-//$router->setDebug(true);
-//$router->setLogger($logger);
+$arkWebService->setDebug(true);
+$arkWebService->setLogger($logger);
+$router->setDebug(true);
+$router->setLogger($logger);
 
 //$logger->debug(__FILE__ . '@' . __LINE__);
 
@@ -25,17 +25,14 @@ $router->setErrorHandler(
             Ark()->webOutput()->jsonForAjax(ArkWebOutput::AJAX_JSON_CODE_FAIL, $detail);
         }
     )
-);
-
-$router->loadAllControllersInDirectoryAsCI(
+)->loadAllControllersInDirectoryAsCI(
     __DIR__ . '/controller',
     'api/',
     '\sinri\bookhub\controller\\',
     [BookHubMainFilter::class]
-);
-
-$router->get("", function () {
+)->get("", function () {
     echo "Welcome to BookHub!" . PHP_EOL;
 });
+
 
 $arkWebService->handleRequestForWeb();
