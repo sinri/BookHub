@@ -9,11 +9,13 @@ use sinri\ark\web\implement\ArkWebController;
 class GitHubWebHookHandleController extends ArkWebController
 {
     protected $logger;
+    protected $webHookSecret;
 
     public function __construct()
     {
         parent::__construct();
         $this->logger = Ark()->logger('GitHubWebHook');
+        $this->webHookSecret = "BookHub";
     }
 
     public function receiveGitHubCalling()
