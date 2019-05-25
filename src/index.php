@@ -7,6 +7,12 @@ use sinri\bookhub\filter\BookHubMainFilter;
 require_once __DIR__ . '/autoload.php';
 
 $arkWebService = Ark()->webService();
+
+$arkWebService->setDebug(true);
+$arkWebService->setLogger(Ark()->logger("debug"));
+$arkWebService->getRouter()->setDebug(true);
+$arkWebService->getRouter()->setLogger(Ark()->logger("debug"));
+
 $arkWebService->getRouter()
     ->handleRouteError(
         ArkRouteErrorHandler::buildWithCallback(
