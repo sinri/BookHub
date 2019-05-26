@@ -23,9 +23,9 @@ class GitHubWebHookHandleController extends ArkWebController
         //$raw = $this->_getInputHandler()->getRawPostBody();
         //$json = $this->_getInputHandler()->getRawPostBodyParsedAsJson();
 
-        $written = file_put_contents(__DIR__ . '/../../runtime/push_hook', time());
+        //$written = file_put_contents(__DIR__ . '/../../runtime/push_hook', time());
 
-        $this->logger->info("Incoming WebHook Event!", ['written' => $written]);
+        $this->logger->info("Incoming WebHook Event!");//['written' => $written]
         //$this->logger->logInline($raw);
         //$this->logger->info("PARSED AS JSON", ['body' => $json]);
 
