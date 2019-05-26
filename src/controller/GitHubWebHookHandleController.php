@@ -29,10 +29,16 @@ class GitHubWebHookHandleController extends ArkWebController
         //$this->logger->logInline($raw);
         //$this->logger->info("PARSED AS JSON", ['body' => $json]);
 
-        exec("pwd", $output);
+        exec("git pull", $output);
 
-        $this->logger->info("call exec", ["output" => $output]);
+        $this->logger->info("Issued pull request", ["output" => $output]);
 
         $this->_sayOK($output);
+    }
+
+    public function verifyVersion()
+    {
+        exec("git branch -v", $output);
+        $this->_sayOK(['commit' => $output]);
     }
 }
