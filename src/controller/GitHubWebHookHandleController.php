@@ -20,11 +20,19 @@ class GitHubWebHookHandleController extends ArkWebController
 
     public function receiveGitHubCalling()
     {
-        $raw = $this->_getInputHandler()->getRawPostBody();
-        $json = $this->_getInputHandler()->getRawPostBodyParsedAsJson();
+        //$raw = $this->_getInputHandler()->getRawPostBody();
+        //$json = $this->_getInputHandler()->getRawPostBodyParsedAsJson();
 
-        $this->logger->info("Incoming WebHook Event");
-        $this->logger->logInline($raw);
-        $this->logger->info("PARSED AS JSON", ['body' => $json]);
+        $written = file_put_contents(__DIR__ . '/../../runtime/push_hook', time());
+
+        $this->logger->info("Incoming WebHook Event!", ['written' => $written]);
+        //$this->logger->logInline($raw);
+        //$this->logger->info("PARSED AS JSON", ['body' => $json]);
+
+        exec("pwd", $output);
+
+        $this->logger->info("call exec", ["output" => $output]);
+
+        $this->_sayOK($output);
     }
 }

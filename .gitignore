@@ -6,4 +6,6 @@ composer.phar
 # composer.lock
 
 /log/
+/cache/
+/runtime/
 /config.php
