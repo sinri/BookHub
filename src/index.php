@@ -2,6 +2,7 @@
 
 use sinri\ark\io\ArkWebOutput;
 use sinri\ark\web\ArkRouteErrorHandler;
+use sinri\bookhub\controller\Reader;
 use sinri\bookhub\filter\BookHubMainFilter;
 
 require_once __DIR__ . '/autoload.php';
@@ -30,8 +31,19 @@ $router->setErrorHandler(
     'api/',
     '\sinri\bookhub\controller\\',
     [BookHubMainFilter::class]
+)->get(
+    "read",
+    [Reader::class, 'read'],
+    [BookHubMainFilter::class],
+    true
+)->get(
+    "ls",
+    [Reader::class, 'ls'],
+    [BookHubMainFilter::class],
+    true
 )->get("", function () {
-    echo "Welcome to BookHub!" . PHP_EOL;
+//    echo "Welcome to BookHub!" . PHP_EOL;
+    header("Location: ./read/index.md");
 });
 
 

@@ -2,6 +2,7 @@
   <dictionary name="sinri">
     <words>
       <w>bookhub</w>
+      <w>parsedown</w>
     </words>
   </dictionary>
 </component>

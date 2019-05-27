@@ -10,7 +10,9 @@
     }
   ],
   "require": {
-    "sinri/ark": "^2.0"
+    "sinri/ark": "^2.0",
+    "erusev/parsedown": "^1.7",
+    "ext-json": "*"
   },
   "repositories": {
     "packagist": {
