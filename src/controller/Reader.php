@@ -74,11 +74,11 @@ class Reader extends ArkWebController
                 // check if index.md
                 $root = Ark()->readConfig(['root'], "./");
                 if (file_exists($path . '/index.md')) {
-                    header("Location: {$root}read/" . implode("/", $components) . "/index.md");
+                    header("Location: {$root}read/" . (empty($components) ? "" : implode("/", $components) . "/") . "index.md");
 //                    header("Location: " . ($hasTailSplash ? "." : "../read" . (empty($components) ? "" : "/") . implode("/", $components)) . "/index.md");
                 } else {
                     // show auto index
-                    header("Location: {$root}read/" . implode("/", $components) . "/index");
+                    header("Location: {$root}read/" . (empty($components) ? "" : implode("/", $components) . "/") . "index");
 //                    header("Location: " . ($hasTailSplash ? "." : "../read" . (empty($components) ? "" : "/") . implode("/", $components)) . "/index");
                 }
                 break;
