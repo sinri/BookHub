@@ -6,7 +6,6 @@ namespace sinri\bookhub\controller;
 
 use Exception;
 use Parsedown;
-use sinri\ark\core\ArkHelper;
 use sinri\ark\web\implement\ArkWebController;
 use sinri\bookhub\core\BookHubStoreItem;
 use sinri\bookhub\core\BookHubUtils;
@@ -56,77 +55,8 @@ class Reader extends ArkWebController
     /**
      * @param $components
      * @throws Exception
-     * @deprecated
-     */
-    public function openPath($components)
-    {
-//        var_dump($components);
-        if (count($components) <= 1) {
-            if (ArkHelper::readTarget($components, [0], '') === '') {
-                $hasTailSplash = $this->hasTailSplash();
-                header("Location: " . ($hasTailSplash ? "" : "./read/") . "index.md");
-                return;
-            }
-        }
-        $utils = new BookHubUtils();
-        $type = $utils->tellPathType($components, $path);
-        switch ($type) {
-            case BookHubStoreItem::TYPE_FOLDER:
-//                var_dump($components);
-                $list = $utils->readDir($components);
-                $this->_showPage("book-ls.php", ['list' => $list, "path" => $components]);
-                break;
-            case BookHubStoreItem::TYPE_MARKDOWN:
-                $contents = file_get_contents($path);
-                $Parsedown = new Parsedown();
-                echo $Parsedown->text($contents);
-                break;
-            default:
-                //$this->_showPage('error.php', ["path" => $components]);
-                $this->_showError(500, $components);
-        }
-    }
-
-    /**
-     * @param $components
-     * @throws Exception
-     */
-    public function ls($components)
-    {
-        if (count($components) < 1 || $components[0] === '') {
-            $components = [];
-        }
-        $utils = new BookHubUtils();
-        $list = $utils->readDir($components);
-        $this->_showPage("book-ls.php", ['list' => $list, "path" => $components]);
-    }
-
-    /**
-     * @param $components
-     * @throws Exception
      */
     public function read($components)
-    {
-        $utils = new BookHubUtils();
-        $type = $utils->tellPathType($components, $path);
-        if ($type === BookHubStoreItem::TYPE_MARKDOWN) {
-            $contents = file_get_contents($path);
-            $Parsedown = new Parsedown();
-            $markdown = $Parsedown->text($contents);
-            $this->_showPage("book-cat.php", ['markdown' => $markdown, "path" => $components]);
-        } elseif ($type === BookHubStoreItem::TYPE_PHP) {
-            // auto index
-            $contents = [];
-            require $path;
-            $Parsedown = new Parsedown();
-            $markdown = $Parsedown->text($contents);
-            $this->_showPage("book-cat.php", ['markdown' => $markdown, "path" => $components]);
-        } else {
-            $this->_showError(500, $components);
-        }
-    }
-
-    public function x1($components)
     {
 //        var_dump($components);
 

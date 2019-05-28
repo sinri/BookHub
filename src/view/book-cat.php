@@ -24,11 +24,17 @@
 <hr>
 <div>
     Quick Access:
-    <a href="./index">🏷 Auto Index</a>
-    <a href="./index.md">🔖 Abstract Page</a>
+    &nbsp;&nbsp;
+    <?php if ($type === \sinri\bookhub\core\BookHubStoreItem::TYPE_INDEX) { ?>
+        <a href="./index.md">🔖 Abstract</a>
+    <?php } else { ?>
+        <a href="./index">🏷 Index</a>
+    <?php } ?>
+    &nbsp;&nbsp;
     <?php if (count($path) !== 1 || ($path[0] !== 'index' && $path[0] !== 'index.md')) { ?>
-        <a href="../index">⬆️🏷 Parent Auto Index</a>
-        <a href="../index.md">⬆️🔖 Parent Abstract Page</a>
+        <!--        <a href="../index">⬆️🏷 Parent Auto Index</a>-->
+        <!--        <a href="../index.md">⬆️🔖 Parent Abstract Page</a>-->
+        <a href="../">⬆️ Parent</a>
     <?php } ?>
 </div>
 <hr>
