@@ -34,7 +34,7 @@ class BookHubUtils
             return BookHubStoreItem::TYPE_INDEX;
         }
         if (!file_exists($path)) {
-            echo __METHOD__ . '@' . __LINE__ . ' dead path: ' . $path . PHP_EOL;
+//            echo __METHOD__ . '@' . __LINE__ . ' dead path: ' . $path . PHP_EOL;
             return false;
         }
         if (is_dir($path)) {
@@ -127,6 +127,7 @@ class BookHubUtils
 //        }
 
         foreach ($items as $index => $item) {
+            if ($item->name === 'index.md') continue;
             $contents .= "* [{$item->title}](./{$item->name})" . PHP_EOL;
         }
 

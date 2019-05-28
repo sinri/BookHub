@@ -6,6 +6,9 @@
 </head>
 <body>
 <h1>BookHub</h1>
-<h2>Your requested page is missing.</h2>
+<h2><?php echo $error; ?></h2>
+<p>
+    Components: ~/<?php echo implode("/", $path); ?>
+</p>
 </body>
 </html>

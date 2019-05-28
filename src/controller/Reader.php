@@ -20,13 +20,13 @@ class Reader extends ArkWebController
 
     protected function _showError($httpCode, $components, $error = null)
     {
-        if ($error !== null) {
+        if ($error === null) {
             switch ($httpCode) {
                 case 404:
-                    $error = "Your requested page is missing.";
+                    $error = "[404] Your requested page is missing.";
                     break;
                 case 500:
-                    $error = "There is something wrong.";
+                    $error = "[500] There is something wrong.";
                     break;
                 default:
                     $error = "Unknown Mistake.";
@@ -72,11 +72,14 @@ class Reader extends ArkWebController
             case BookHubStoreItem::TYPE_FOLDER:
                 $hasTailSplash = $this->hasTailSplash();
                 // check if index.md
+                $root = Ark()->readConfig(['root'], "./");
                 if (file_exists($path . '/index.md')) {
-                    header("Location: " . ($hasTailSplash ? "." : "../read" . (empty($components) ? "" : "/") . implode("/", $components)) . "/index.md");
+                    header("Location: {$root}read/" . implode("/", $components) . "/index.md");
+//                    header("Location: " . ($hasTailSplash ? "." : "../read" . (empty($components) ? "" : "/") . implode("/", $components)) . "/index.md");
                 } else {
                     // show auto index
-                    header("Location: " . ($hasTailSplash ? "." : "../read" . (empty($components) ? "" : "/") . implode("/", $components)) . "/index");
+                    header("Location: {$root}read/" . implode("/", $components) . "/index");
+//                    header("Location: " . ($hasTailSplash ? "." : "../read" . (empty($components) ? "" : "/") . implode("/", $components)) . "/index");
                 }
                 break;
             case BookHubStoreItem::TYPE_MARKDOWN:
@@ -99,7 +102,7 @@ class Reader extends ArkWebController
                 $this->_showPage("book-cat.php", ['markdown' => $markdown, "path" => $components, 'type' => $type]);
                 break;
             default:
-                $this->_showError(500, $components);
+                $this->_showError(500, $components, "The Type Is Not Processable.");
                 break;
         }
     }
