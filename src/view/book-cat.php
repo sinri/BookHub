@@ -2,12 +2,17 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>BookHub - LeDoc</title>
+    <title><?php echo $title; ?> - <?php echo $type; ?> - BookHub - LeDoc</title>
+    <link rel="stylesheet" href="https://unpkg.com/github-markdown-css@2.10.0/github-markdown.css">
 </head>
-<body>
-<h1>
-    BookHub
-    <small>
+<body style="background: lightgray">
+<!--<hr>-->
+<div style="margin: 5px auto;padding:10px;background: lightblue">
+    <span>BookHub</span>
+    &nbsp;&nbsp;
+    |
+    &nbsp;&nbsp;
+    <span style="font-size: 14px">
         <?php
         switch ($type) {
             case \sinri\bookhub\core\BookHubStoreItem::TYPE_INDEX:
@@ -19,10 +24,10 @@
                 break;
         }
         ?>
-    </small>
-</h1>
-<hr>
-<div>
+    </span>
+    &nbsp;&nbsp;
+    |
+    &nbsp;&nbsp;
     Quick Access:
     &nbsp;&nbsp;
     <?php if ($type === \sinri\bookhub\core\BookHubStoreItem::TYPE_INDEX) { ?>
@@ -37,9 +42,11 @@
         <a href="../">⬆️ Parent</a>
     <?php } ?>
 </div>
-<hr>
-<div>
-    <?php echo $markdown; ?>
+<!--<hr>-->
+<div style="background: white;padding: 10px">
+    <div class="markdown-body">
+        <?php echo $markdown; ?>
+    </div>
 </div>
 <hr>
 <div>

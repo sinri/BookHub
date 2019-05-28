@@ -4,6 +4,8 @@
 namespace sinri\bookhub\core;
 
 
+use Parsedown;
+
 class BookHubStoreItem
 {
     const TYPE_FOLDER = "FOLDER";
@@ -49,17 +51,20 @@ class BookHubStoreItem
         $instance->fullPathComponents = json_decode(json_encode($parentPathComponents), true);
         $instance->fullPathComponents[] = $folderName;
 
-        $indexPath = $instance->fullPath . '/index.md';
-        if (!file_exists($indexPath) || !is_file($indexPath) || !is_readable($indexPath)) return false;
-        $file = fopen($indexPath, 'r');
-        if (!$file) return false;
-        $line = fgets($file);
-        fclose($file);
-        if ($line === false) return false;
-        $replaced = preg_replace('/^#+\s+/', "", $line);
-        $replaced = preg_replace('/\s+$/', "", $replaced);
-        if (strlen($replaced) === 0) return false;
-        $instance->title = $replaced;
+//        $indexPath = $instance->fullPath . '/index.md';
+//        if (!file_exists($indexPath) || !is_file($indexPath) || !is_readable($indexPath)) return false;
+//        $file = fopen($indexPath, 'r');
+//        if (!$file) return false;
+//        $line = fgets($file);
+//        fclose($file);
+//        if ($line === false) return false;
+//        $replaced = preg_replace('/^#+\s+/', "", $line);
+//        $replaced = preg_replace('/\s+$/', "", $replaced);
+//        if (strlen($replaced) === 0) return false;
+//        $instance->title = $replaced;
+
+        $instance->title = self::getTitleRowFromFile($instance->fullPath . '/index.md');
+        if ($instance->title === false) return false;
 
         return $instance;
     }
@@ -79,6 +84,7 @@ class BookHubStoreItem
         $instance->fullPathComponents = json_decode(json_encode($parentPathComponents), true);
         $instance->fullPathComponents[] = $fileName;
 
+        /*
         if (!file_exists($instance->fullPath) || !is_file($instance->fullPath) || !is_readable($instance->fullPath)) return false;
         $file = fopen($instance->fullPath, 'r');
         if (!$file) return false;
@@ -89,7 +95,35 @@ class BookHubStoreItem
         $replaced = preg_replace('/\s+$/', "", $replaced);
         if (strlen($replaced) === 0) return false;
         $instance->title = $replaced;
+        */
+        $instance->title = self::getTitleRowFromFile($instance->fullPath);
+        if ($instance->title === false) return false;
 
         return $instance;
+    }
+
+    public function getRawMarkdownContents()
+    {
+        $contents = file_get_contents($this->fullPath);
+        return $contents;
+    }
+
+    public function getParsedHtmlContents()
+    {
+        $Parsedown = new Parsedown();
+        return $Parsedown->text($this->getRawMarkdownContents());
+    }
+
+    protected static function getTitleRowFromFile($filePath)
+    {
+        $file = fopen($filePath, 'r');
+        if (!$file) return false;
+        $line = fgets($file);
+        fclose($file);
+        if ($line === false) return false;
+        $replaced = preg_replace('/^#+\s+/', "", $line);
+        $replaced = preg_replace('/\s+$/', "", $replaced);
+        if (strlen($replaced) === 0) return false;
+        return $replaced;
     }
 }

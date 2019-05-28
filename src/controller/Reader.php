@@ -70,7 +70,7 @@ class Reader extends ArkWebController
 //        var_dump($type);
         switch ($type) {
             case BookHubStoreItem::TYPE_FOLDER:
-                $hasTailSplash = $this->hasTailSplash();
+//                $hasTailSplash = $this->hasTailSplash();
                 // check if index.md
                 $root = Ark()->readConfig(['root'], "./");
                 if (file_exists($path . '/index.md')) {
@@ -86,20 +86,44 @@ class Reader extends ArkWebController
                 if (!file_exists($path)) {
                     $this->_showError(404, $components);
                 } else {
-                    $contents = file_get_contents($path);
-                    $Parsedown = new Parsedown();
-                    $markdown = $Parsedown->text($contents);
-                    $this->_showPage("book-cat.php", ['markdown' => $markdown, "path" => $components, 'type' => $type]);
+                    $item = BookHubStoreItem::createAsMarkdown(array_slice($components, 0, count($components) - 1), $components[count($components) - 1]);
+
+//                    $contents = file_get_contents($path);
+//                    $Parsedown = new Parsedown();
+//                    $markdown = $Parsedown->text($contents);
+                    $this->_showPage(
+                        "book-cat.php",
+                        [
+                            'markdown' => $item->getParsedHtmlContents(),
+                            "path" => $components,
+                            'type' => $type,
+                            'title' => $item->title,
+                        ]
+                    );
                 }
                 break;
             case BookHubStoreItem::TYPE_INDEX:
                 // the auto index
+                if (count($components) <= 1) {
+                    $title = "ROOT";
+                } else {
+                    $item = BookHubStoreItem::createAsFolder(array_slice($components, 0, count($components) - 2), $components[count($components) - 2]);
+                    $title = $item->title;
+                }
                 $folder = json_decode(json_encode($components), true);
                 array_splice($folder, count($folder) - 1, 1);
                 $contents = $utils->getAutoIndexMarkdownContentsForFolder($folder);
                 $Parsedown = new Parsedown();
                 $markdown = $Parsedown->text($contents);
-                $this->_showPage("book-cat.php", ['markdown' => $markdown, "path" => $components, 'type' => $type]);
+                $this->_showPage(
+                    "book-cat.php",
+                    [
+                        'markdown' => $markdown,
+                        "path" => $components,
+                        'type' => $type,
+                        'title' => $title,
+                    ]
+                );
                 break;
             default:
                 $this->_showError(500, $components, "The Type Is Not Processable.");
