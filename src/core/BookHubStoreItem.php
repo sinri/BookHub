@@ -8,6 +8,8 @@ class BookHubStoreItem
 {
     const TYPE_FOLDER = "FOLDER";
     const TYPE_MARKDOWN = "MARKDOWN";
+    const TYPE_PHP = "PHP";
+    const TYPE_INDEX = "INDEX";
     /**
      * @var string
      */

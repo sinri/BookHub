@@ -1,3 +1,3 @@
-# Diary Index
+# Diary
 
 We Are The Way!

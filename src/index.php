@@ -26,25 +26,35 @@ $router->setErrorHandler(
             Ark()->webOutput()->jsonForAjax(ArkWebOutput::AJAX_JSON_CODE_FAIL, $detail);
         }
     )
-)->loadAllControllersInDirectoryAsCI(
-    __DIR__ . '/controller',
-    'api/',
-    '\sinri\bookhub\controller\\',
-    [BookHubMainFilter::class]
-)->get(
-    "read",
-    [Reader::class, 'read'],
-    [BookHubMainFilter::class],
-    true
-)->get(
-    "ls",
-    [Reader::class, 'ls'],
-    [BookHubMainFilter::class],
-    true
-)->get("", function () {
+)
+    ->loadAllControllersInDirectoryAsCI(
+        __DIR__ . '/controller',
+        'api/',
+        '\sinri\bookhub\controller\\',
+        [BookHubMainFilter::class]
+    )
+//    ->get(
+//    "read",
+//    [Reader::class, 'read'],
+//    [BookHubMainFilter::class],
+//    true
+//)
+//    ->get(
+//    "ls",
+//    [Reader::class, 'ls'],
+//    [BookHubMainFilter::class],
+//    true
+//)
+    ->get(
+        "read",
+        [Reader::class, 'x1'],
+        [BookHubMainFilter::class],
+        true
+    )
+    ->get("", function () {
 //    echo "Welcome to BookHub!" . PHP_EOL;
-    header("Location: ./read/index.md");
-});
+        header("Location: ./read/index.php");
+    });
 
 
 $arkWebService->handleRequestForWeb();

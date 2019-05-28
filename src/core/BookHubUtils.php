@@ -29,7 +29,12 @@ class BookHubUtils
     public function tellPathType($components = [], &$path = null)
     {
         $path = self::getPath($components);
+        if (!empty($components) && $components[count($components) - 1] === 'index') {
+            $path = realpath($path . '/../');
+            return BookHubStoreItem::TYPE_INDEX;
+        }
         if (!file_exists($path)) {
+            echo __METHOD__ . '@' . __LINE__ . ' dead path: ' . $path . PHP_EOL;
             return false;
         }
         if (is_dir($path)) {
@@ -38,6 +43,9 @@ class BookHubUtils
         if (strpos($path, '.md') === strlen($path) - 3) {
             return BookHubStoreItem::TYPE_MARKDOWN;
         }
+//        if (strpos($path, '.php') === strlen($path) - 4) {
+//            return BookHubStoreItem::TYPE_PHP;
+//        }
         return false;
     }
 
@@ -97,5 +105,31 @@ class BookHubUtils
             return "ROOT";
         }
         return $relativeFolderPath[count($relativeFolderPath) - 1];
+    }
+
+    /**
+     * @param string[] $pathComponentsHere
+     * @return string
+     * @throws Exception
+     */
+    public function getAutoIndexMarkdownContentsForFolder($pathComponentsHere)
+    {
+        $items = $this->readDir($pathComponentsHere);
+
+        usort($items, function ($a, $b) {
+            return $a->name > $b->name;
+        });
+
+        $contents = "# Auto Index of " . $this->getFolderTitle($pathComponentsHere) . PHP_EOL . PHP_EOL;
+
+//        if(!empty($pathComponentsHere)){
+//            $contents.="* [Back to parent](..)".PHP_EOL;
+//        }
+
+        foreach ($items as $index => $item) {
+            $contents .= "* [{$item->title}](./{$item->name})" . PHP_EOL;
+        }
+
+        return $contents;
     }
 }

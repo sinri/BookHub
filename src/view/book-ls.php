@@ -5,8 +5,11 @@
     <title>BookHub - LeDoc</title>
 </head>
 <body>
-<h1>BookHub</h1>
-<h2>Explore <?php echo "~/" . implode("/", $path); ?></h2>
+<h1>
+    BookHub
+    <small>Explore <?php echo "~/" . implode("/", $path); ?></small>
+</h1>
+<hr>
 <!--<div><pre>--><?php //var_dump($list); ?><!--</pre></div>-->
 <div>
     <ul>
@@ -37,6 +40,9 @@
         ?>
     </ul>
 </div>
-
+<hr>
+<div>
+    All Right Reserved. Copyright 2019 Sinri Edogawa.
+</div>
 </body>
 </html>
