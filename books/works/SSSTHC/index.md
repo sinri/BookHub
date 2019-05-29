@@ -8,6 +8,7 @@ Sunday School Support Textbook based on the Heidelberg Catechism
 
 [Source Text Reference](https://www.crcna.org/welcome/beliefs/confessions/heidelberg-catechism)
 
+[ただ一つの慰め『ハイデルベルク信仰問答』の学び](http://jesus-web.org/heidelberg/index.htm)
 
 
 ##【目次】
